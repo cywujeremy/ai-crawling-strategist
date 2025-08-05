@@ -10,15 +10,10 @@ from ..models.memory import (
 )
 from ..models.chunks import DOMChunk
 from ..llm import ClaudeClient, render_chunk_analysis_prompt, validate_json_response
-from ..exceptions import ConfigurationError
+from ..exceptions import ConfigurationError, MemoryError
 
 
 logger = logging.getLogger(__name__)
-
-
-class MemoryError(Exception):
-    """Memory management failures."""
-    pass
 
 
 class MemoryManager:

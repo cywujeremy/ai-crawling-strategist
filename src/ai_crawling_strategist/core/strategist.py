@@ -8,18 +8,20 @@ from ..auth import CredentialResolver, AWSCredentials
 from ..preprocessing import clean_html
 from ..llm import ClaudeClient
 from ..models.extraction import ExtractionSchema
-from ..exceptions import ConfigurationError
-from .chunker import DOMChunker, ChunkingError
-from .memory_manager import MemoryManager, MemoryError  
-from .schema_generator import SchemaGenerator, SchemaGenerationError
+from ..exceptions import (
+    ConfigurationError, 
+    ProcessingError, 
+    LLMError,
+    ChunkingError, 
+    MemoryError, 
+    SchemaGenerationError
+)
+from .chunker import DOMChunker
+from .memory_manager import MemoryManager  
+from .schema_generator import SchemaGenerator
 
 
 logger = logging.getLogger(__name__)
-
-
-class ProcessingError(Exception):
-    """Base class for core processing errors."""
-    pass
 
 
 class DOMStrategist:

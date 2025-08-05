@@ -24,3 +24,45 @@ class InvalidRegionError(ConfigurationError):
 class CredentialValidationError(ConfigurationError):
     """Credentials invalid or insufficient permissions."""
     pass
+
+
+# Processing exceptions
+class ProcessingError(Exception):
+    """Base class for core processing errors."""
+    pass
+
+
+class ChunkingError(ProcessingError):
+    """DOM chunking failures."""
+    pass
+
+
+class MemoryError(ProcessingError):
+    """Memory management failures."""
+    pass
+
+
+class SchemaGenerationError(ProcessingError):
+    """Final schema generation failures."""
+    pass
+
+
+# LLM integration exceptions
+class LLMError(Exception):
+    """Base class for LLM-related errors."""
+    pass
+
+
+class LLMValidationError(LLMError):
+    """LLM response validation failures."""
+    pass
+
+
+class LLMConnectionError(LLMError):
+    """LLM API connection or authentication failures."""
+    pass
+
+
+class LLMThrottleError(LLMError):
+    """LLM API rate limiting errors."""
+    pass

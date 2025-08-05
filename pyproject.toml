@@ -1,24 +1,33 @@
 [project]
-name = "narrative-crawler"
+name = "ai-crawling-strategist"
 version = "0.1.0"
-description = ""
+description = "Incremental DOM parsing with rolling memory for intelligent web data extraction"
 authors = [
     {name = "cywujeremy",email = "chengyuwu8193@outlook.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.12,<4.0"
 dependencies = [
+    # Core dependencies for DOM analysis
+    "beautifulsoup4 (>=4.13.4,<5.0.0)",
+    
+    # AWS integration
+    "boto3 (>=1.39.4,<2.0.0)",
+    
+    # Data processing utilities  
+    "numpy (>=2.3.1,<3.0.0)",
+    
+    # Optional dependencies (kept from original for compatibility)
     "langchain (>=0.3.26,<0.4.0)",
     "openai (>=1.93.0,<2.0.0)",
     "sentence-transformers (>=5.0.0,<6.0.0)",
     "faiss-cpu (>=1.11.0,<2.0.0)",
-    "numpy (>=2.3.1,<3.0.0)",
     "pandas (>=2.3.0,<3.0.0)",
     "selenium (>=4.34.0,<5.0.0)",
-    "beautifulsoup4 (>=4.13.4,<5.0.0)",
     "matplotlib (>=3.10.3,<4.0.0)",
     "webdriver-manager (>=4.0.2,<5.0.0)",
-    "boto3 (>=1.39.4,<2.0.0)"
+    "tqdm (>=4.67.1,<5.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)"
 ]
 
 

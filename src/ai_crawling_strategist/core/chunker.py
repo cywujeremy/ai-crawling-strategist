@@ -5,17 +5,7 @@ import re
 from bs4 import BeautifulSoup, NavigableString
 
 from ..models.chunks import DOMChunk, ChunkContext, ChunkBoundary
-from ..exceptions import ConfigurationError
-
-
-class ProcessingError(Exception):
-    """Base class for core processing errors."""
-    pass
-
-
-class ChunkingError(ProcessingError):
-    """DOM chunking failures."""
-    pass
+from ..exceptions import ConfigurationError, ProcessingError, ChunkingError
 
 
 class DOMChunker:

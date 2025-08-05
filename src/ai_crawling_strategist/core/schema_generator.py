@@ -10,15 +10,10 @@ from ..models.extraction import (
     ItemSelector, FallbackStrategy, SelectorType
 )
 from ..llm import ClaudeClient, render_schema_generation_prompt, validate_json_response
-from ..exceptions import ConfigurationError
+from ..exceptions import ConfigurationError, SchemaGenerationError
 
 
 logger = logging.getLogger(__name__)
-
-
-class SchemaGenerationError(Exception):
-    """Final schema generation failures."""
-    pass
 
 
 class SchemaGenerator:

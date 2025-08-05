@@ -3,6 +3,7 @@
 from .config import global_config
 from .auth import CredentialResolver, AWSCredentials
 from .exceptions import ConfigurationError
+from .core import DOMStrategist
 
 # Module-level attribute access for global configuration
 # Usage: import ai_crawling_strategist as acs; acs.aws_access_key_id = "..."
@@ -31,7 +32,13 @@ def _patched_setattr(name, value):
 _this_module.__setattr__ = _patched_setattr
 
 __all__ = [
+    # Main API
+    "DOMStrategist",
+    
+    # Authentication components
     "CredentialResolver", 
     "AWSCredentials",
+    
+    # Exception classes
     "ConfigurationError"
 ]
