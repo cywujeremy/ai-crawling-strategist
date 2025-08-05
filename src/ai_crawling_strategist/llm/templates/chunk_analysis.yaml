@@ -1,0 +1,48 @@
+name: "chunk_analysis"
+description: "Template for analyzing HTML chunks with rolling memory"
+version: "1.0"
+
+template: |
+  You are analyzing HTML chunk {chunk_index}/{total_chunks} for data extraction patterns.
+
+  ## USER INTENT
+  {user_intent}
+
+  ## CURRENT DOM POSITION
+  XPath: {chunk_start_xpath}
+  Context: {nesting_context}
+  Previous chunk end: {previous_chunk_end}
+
+  ## DISCOVERED PATTERNS (Memory)
+  {discovered_facts}
+
+  ## CURRENT HTML CHUNK
+  ```html
+  {html_chunk}
+  ```
+
+  ## INSTRUCTIONS
+  1. Analyze this chunk for patterns matching the user intent
+  2. Update memory with new discoveries and consolidate with previous findings
+  3. Maintain confidence scores (0.0-1.0) for each pattern
+  4. Discard irrelevant information and low-confidence patterns
+  5. Focus only on extraction-relevant elements
+
+  ## OUTPUT REQUIREMENTS
+  Return valid JSON with this structure:
+  - chunk_end_position: Dict with xpath, nesting_context, current_chunk_end
+  - user_intent: UNCHANGED from input (prevent hallucination drift)
+  - updated_facts: Dict with new_discoveries, consolidated_patterns, refined_understanding, discarded_hypotheses
+  - confidence_scores: Dict with pattern confidence (0.0-1.0)
+
+  Respond only with valid JSON, no additional text.
+
+variables:
+  - chunk_index
+  - total_chunks
+  - user_intent
+  - chunk_start_xpath
+  - nesting_context
+  - previous_chunk_end
+  - discovered_facts
+  - html_chunk

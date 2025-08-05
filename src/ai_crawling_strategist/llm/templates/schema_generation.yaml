@@ -1,0 +1,39 @@
+name: "schema_generation"
+description: "Template for generating final extraction schema from consolidated memory"
+version: "1.0"
+
+template: |
+  You are creating a final extraction schema based on discovered patterns from DOM analysis.
+
+  ## USER INTENT
+  {user_intent}
+
+  ## CONSOLIDATED MEMORY
+  {final_memory}
+
+  ## INSTRUCTIONS
+  1. Convert discovered patterns into crawl4ai-compatible CSS/XPath selectors
+  2. Prioritize high-confidence patterns (>0.8 confidence)
+  3. Ensure selectors are robust and specific enough to avoid false matches
+  4. Include fallback selectors when multiple valid patterns exist
+  5. Focus on the most reliable patterns for each required field
+
+  ## OUTPUT REQUIREMENTS
+  Return valid JSON with this structure:
+  - container_selector: Main container holding all items (CSS or XPath)
+  - item_selector: Individual item selector within container (CSS or XPath)
+  - fields: Dict mapping field names to selectors (relative to item)
+  - fallback_selectors: Optional dict with alternative selectors for each field
+  - confidence_summary: Dict with confidence scores for each selector
+
+  ## SELECTOR FORMAT
+  - Use CSS selectors when possible for simplicity
+  - Use XPath when CSS is insufficient (text content, complex navigation)
+  - Relative selectors for fields (within item context)
+  - Include text extraction hints (e.g., "/text()" for XPath)
+
+  Respond only with valid JSON, no additional text.
+
+variables:
+  - user_intent
+  - final_memory
