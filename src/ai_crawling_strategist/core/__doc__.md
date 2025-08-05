@@ -63,7 +63,7 @@ graph TD
 2. **Preprocessing**: Clean HTML using `preprocessing.html_cleaner`
 3. **Chunking**: Split DOM into manageable pieces with `DOMChunker`
 4. **Memory Setup**: Initialize rolling memory with user intent
-5. **Iterative Analysis**: Process each chunk with `MemoryManager`
+5. **Iterative Analysis**: Process each chunk with `MemoryManager`, use tqdm to trace high level progress
 6. **Schema Generation**: Convert final memory to extraction plan
 7. **Output**: Return crawl4ai-compatible extraction schema
 
