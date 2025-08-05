@@ -20,7 +20,7 @@ class ChunkContext(BaseModel):
     open_parent_tags: List[str] = Field(default_factory=list, description="Stack of unclosed parent element names")
     parent_attributes: Dict[str, Dict[str, Any]] = Field(default_factory=dict, description="Attributes of open parent tags")
     dom_path: str = Field(default="", description="CSS selector or XPath to current position")
-    nesting_level: int = Field(ge=0, description="Current nesting depth")
+    nesting_level: int = Field(default=0,ge=0, description="Current nesting depth")
     previous_sibling_info: Optional[str] = Field(default=None, description="Information about previous sibling element")
     
     @validator('open_parent_tags')

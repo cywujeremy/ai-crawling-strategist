@@ -70,11 +70,18 @@ class SchemaGenerator:
             high_confidence_patterns = self._filter_high_confidence_patterns(final_memory)
             
             # Generate schema using LLM
+            # Consolidate memory data for template
+            memory_data = {
+                "discovered_patterns": high_confidence_patterns,
+                "page_understanding": final_memory.updated_facts.page_understanding,
+                "target_entities": final_memory.user_intent.target_entities,
+                "total_patterns": len(final_memory.updated_facts.structural_patterns),
+                "confidence_scores": final_memory.updated_facts.confidence_scores
+            }
+            
             prompt = render_schema_generation_prompt(
-                discovered_patterns=high_confidence_patterns,
-                user_query=user_query,
-                page_understanding=final_memory.updated_facts.page_understanding,
-                target_entities=final_memory.user_intent.target_entities
+                user_intent=user_query,
+                final_memory=str(memory_data)
             )
             
             response = self.llm_client.call_claude(
@@ -83,8 +90,12 @@ class SchemaGenerator:
                 temperature=0.1
             )
             
-            # Validate and parse response
-            validated_response = validate_json_response(response, expected_schema="schema_generation")
+            # Parse JSON response
+            import json
+            try:
+                validated_response = json.loads(response)
+            except json.JSONDecodeError as e:
+                raise SchemaGenerationError(f"Failed to parse LLM response as JSON: {e}")
             
             # Extract schema components
             container_data = validated_response.get("container_selector", {})

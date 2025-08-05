@@ -126,12 +126,14 @@ class MemoryManager:
             
             # Prepare prompt for LLM analysis
             prompt = render_chunk_analysis_prompt(
-                html_chunk=chunk.html_content,
-                user_query=current_memory.user_intent.original_query,
-                discovered_patterns=current_memory.discovered_facts.structural_patterns,
-                chunk_context=chunk.context.get_context_html(),
                 chunk_index=chunk.chunk_index,
-                total_chunks=chunk.total_chunks
+                total_chunks=chunk.total_chunks,
+                user_intent=current_memory.user_intent.original_query,
+                chunk_start_xpath=current_memory.chunk_start_position.xpath,
+                nesting_context=chunk.context.get_context_html(),
+                previous_chunk_end=current_memory.chunk_start_position.previous_chunk_end,
+                discovered_facts=str(current_memory.discovered_facts),
+                html_chunk=chunk.html_content
             )
             
             # Call LLM for chunk analysis
@@ -141,8 +143,12 @@ class MemoryManager:
                 temperature=0.1
             )
             
-            # Validate and parse response
-            validated_response = validate_json_response(response, expected_schema="chunk_analysis")
+            # Parse JSON response
+            import json
+            try:
+                validated_response = json.loads(response)
+            except json.JSONDecodeError as e:
+                raise MemoryError(f"Failed to parse LLM response as JSON: {e}")
             
             # Extract new patterns from response
             new_patterns = validated_response.get("discovered_patterns", [])
@@ -182,6 +188,8 @@ class MemoryManager:
                 logger.info("Applying memory compression")
                 output_memory.updated_facts = self.compression_strategy.compress_facts(updated_facts)
             
+            print(f"output_memory: {output_memory}")
+
             return output_memory
             
         except Exception as e:

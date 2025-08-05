@@ -3,30 +3,40 @@ import time
 import boto3
 from typing import Tuple, Dict, Any, Optional
 
+from ..auth import AWSCredentials
+
 
 class ClaudeClient:
     """AWS Bedrock Claude Sonnet 3.5 client with retry logic and cost tracking."""
     
     def __init__(
         self,
+        credentials: AWSCredentials,
         model_id: str = "us.anthropic.claude-3-5-sonnet-20241022-v2:0",
-        region_name: str = "us-east-1",
         max_retries: int = 5,
         initial_wait_time: int = 30
     ):
         """
-        Initialize Claude client.
+        Initialize Claude client with AWS credentials.
         
         Args:
+            credentials: Validated AWS credentials from auth module
             model_id: Claude model identifier
-            region_name: AWS region for Bedrock
             max_retries: Maximum retry attempts for throttling
             initial_wait_time: Initial wait time in seconds for exponential backoff
         """
         self.model_id = model_id
         self.max_retries = max_retries
         self.initial_wait_time = initial_wait_time
-        self.client = boto3.client("bedrock-runtime", region_name=region_name)
+        
+        # Initialize Bedrock client with provided credentials
+        self.client = boto3.client(
+            "bedrock-runtime",
+            aws_access_key_id=credentials.access_key_id,
+            aws_secret_access_key=credentials.secret_access_key,
+            region_name=credentials.region,
+            aws_session_token=credentials.session_token
+        )
     
     def invoke(
         self,
@@ -136,3 +146,25 @@ class ClaudeClient:
             "total_tokens": 0,
             "estimated_cost": 0.0
         }
+    
+    def call_claude(
+        self,
+        prompt: str,
+        max_tokens: int = 80000,
+        temperature: float = 1.0,
+        top_p: float = 0.999
+    ) -> str:
+        """
+        Simplified interface for Claude API calls.
+        
+        Args:
+            prompt: Input prompt for the model
+            max_tokens: Maximum tokens in response
+            temperature: Sampling temperature
+            top_p: Top-p sampling parameter
+            
+        Returns:
+            Response text from Claude
+        """
+        response_text, _ = self.invoke(prompt, max_tokens, temperature, top_p)
+        return response_text or ""
