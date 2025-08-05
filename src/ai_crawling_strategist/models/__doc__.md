@@ -23,7 +23,7 @@ DOM chunk data structures for incremental processing:
 ### extraction.py
 Final extraction schema models for output generation:
 
-- **ExtractionSchema**: Complete extraction plan for crawl4ai
+- **ExtractionSchema**: Complete extraction plan for crawl4ai with strategy explanation
 - **FieldSelector**: CSS/XPath selectors with confidence scores
 - **FallbackStrategy**: Alternative selectors for robustness
 

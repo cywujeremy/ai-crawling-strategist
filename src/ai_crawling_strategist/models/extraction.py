@@ -125,6 +125,7 @@ class ExtractionSchema(BaseModel):
     fallback_strategies: List[FallbackStrategy] = Field(default_factory=list, description="Alternative extraction strategies")
     schema_confidence: float = Field(ge=0.0, le=1.0, description="Overall confidence in extraction schema")
     extraction_metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata about extraction")
+    strategy_explanation: str = Field(..., description="Natural language explanation of the extraction strategy and discovered patterns")
     
     @validator('fields')
     def fields_must_not_be_empty(cls, v):

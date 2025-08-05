@@ -25,6 +25,7 @@ template: |
   - fields: Dict mapping field names to selectors (relative to item)
   - fallback_selectors: Optional dict with alternative selectors for each field
   - confidence_summary: Dict with confidence scores for each selector
+  - strategy_explanation: Natural language explanation of the extraction strategy and discovered patterns, describing which HTML elements and tags to target for the required information
 
   ## SELECTOR FORMAT
   - Use CSS selectors when possible for simplicity
