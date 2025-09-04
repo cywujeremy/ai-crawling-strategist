@@ -51,11 +51,17 @@ This approach enables analysis of arbitrarily large web pages while maintaining 
 ## 📦 Installation
 
 ```bash
-pip install ai-crawling-strategist
+# Clone the repository
+git clone https://github.com/cywujeremy/ai-crawling-strategist.git
+cd ai-crawling-strategist
+
+# Install with Poetry (recommended)
+poetry install
 ```
 
 ### Requirements
 - Python 3.12+
+- Poetry
 - AWS account with Bedrock access (for Claude Sonnet 3.5)
 - AWS credentials configured
 
@@ -98,16 +104,6 @@ acs.aws_region = "us-east-1"
 
 # Now use without explicit credentials
 strategist = DOMStrategist()
-```
-
-### Advanced Configuration
-
-```python
-strategist = DOMStrategist(
-    chunk_size=3000,           # Larger chunks for complex pages
-    confidence_threshold=0.9,   # Higher confidence requirement
-    enable_validation=True      # Validate selectors against source HTML
-)
 ```
 
 ---
